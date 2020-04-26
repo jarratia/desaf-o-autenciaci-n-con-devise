@@ -54,10 +54,14 @@ class StoriesController < ApplicationController
   # DELETE /stories/1
   # DELETE /stories/1.json
   def destroy
+    if current_user.admin?
     @story.destroy
-    respond_to do |format|
-      format.html { redirect_to stories_url, notice: 'Story was successfully destroyed.' }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to stories_url, notice: 'Story was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to root_path, notice: '¡Atención! Debes ser usuario Admin para borrar una historia'
     end
   end
 
